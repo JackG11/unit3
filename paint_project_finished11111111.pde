@@ -86,7 +86,27 @@ void draw() {
   fill(pink);
   ellipse(75, 700, 100, 100);
 
+//clear button
+tactile1(1025,715,75,75);
+fill(255);
+rect(1025,715,75,75);
+textSize(25);
+fill(black);
+text("CLEAR", 1028, 760);
 
+//save button
+tactile1(1106,715,75,35);
+rect(1106, 715, 75,35);
+fill(white);
+text("SAVE", 1115, 740);
+
+
+//LOAD
+tactile1(1106,755,75,35);
+fill(black);
+rect(1106, 755, 75, 35);
+fill(white);
+text("LOAD", 1115, 780);
 
   //slider
   stroke(3);
@@ -99,7 +119,7 @@ void mouseDragged() {
   controlSlider();
   if (mouseY <700 && mouseX>150) {
     if (frogOn == false) {
-      strokeWeight(5);
+      strokeWeight(shade);
       stroke(selectedColor);
       line(pmouseX, pmouseY, mouseX, mouseY);
     } else {
@@ -163,11 +183,39 @@ void mouseReleased() {
   if (dist(75, 700, mouseX, mouseY)<50) {
     selectedColor = pink;
   }
+  //clear button
+if(mouseX > 1025 && mouseX < 1100 && mouseY > 715 && mouseY < 790){
+  background(white);
+}
 
+//save button
+if(mouseX > 1106 && mouseX < 1181 && mouseY > 75 && mouseY < 100){
+  selectInput("Choose a name for your new image file", "saveImage");
+}
   controlSlider();
 }
+
 void controlSlider() {
   if (mouseX > 300 && mouseX <900 && mouseY >725 && mouseY<775) {
     sliderX = mouseX;
+  }
+}
+
+void saveImage(File f) {
+  if(f!= null){
+    PImage canvas = get(150, 0, width - 1100, height - 500);
+    canvas.save(f.getAbsolutePath());
+  }
+}
+
+void openImage(File f){
+  if(f !=null){
+    //KLUDGE
+    int n = 0;
+    while(n < 100){
+      PImage pic = loadImage(f.getPath());
+      image(pic, 0, 0);
+      n = n + 1;
+    }
   }
 }
